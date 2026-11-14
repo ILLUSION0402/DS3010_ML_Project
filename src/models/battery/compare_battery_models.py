@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import math
@@ -7,7 +8,16 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-PROCESSED_DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'processed'))
+def get_project_root():
+    current = Path(__file__).resolve()
+    for parent in [current] + list(current.parents):
+        if (parent / 'data').exists() and (parent / 'src').exists():
+            return parent
+    return current.parents[3]
+
+PROJECT_ROOT = get_project_root()
+PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
+BATTERY_PROCESSED_DIR = os.path.join(PROCESSED_DATA_DIR, 'battery')
 TRAIN_PATH = os.path.join(PROCESSED_DATA_DIR, "train_battery.csv")
 TEST_PATH = os.path.join(PROCESSED_DATA_DIR, "test_battery.csv")
 
@@ -22,22 +32,18 @@ def main():
     train_data = pd.read_csv(TRAIN_PATH)
     test_data = pd.read_csv(TEST_PATH)
     
-    # Base features
     base_features = ["v_mean", "v_min", "v_max", "c_mean", "c_min", "c_max", "t_mean", "t_min", "t_max", "capacity"]
     feature_cols = [c for c in base_features if train_data[c].nunique() > 5]
     
-    # Cap target
     y_train = train_data["target"].clip(upper=125)
     y_test = test_data["target"].clip(upper=125)
     
-    # Prepare scaling strategies
     scalers = {
         "Raw (No Scaling)": None,
         "Standard (Z-Score)": StandardScaler(),
         "MinMax (0 to 1)": MinMaxScaler()
     }
     
-    # Prepare baseline models
     models = {
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42),
@@ -45,7 +51,6 @@ def main():
     }
     
     results = []
-    
     for scaler_name, scaler in scalers.items():
         if scaler is None:
             x_train = train_data[feature_cols]
@@ -60,7 +65,6 @@ def main():
             
             rmse = np.sqrt(mean_squared_error(y_test, preds))
             mae = mean_absolute_error(y_test, preds)
-            phm = phm_score(y_test, y_test.index) # Wait, bug. I will fix it on the next line.
             
             results.append({
                 "Preprocessing": scaler_name,
@@ -73,19 +77,14 @@ def main():
     results_df = pd.DataFrame(results)
     
     print("\n" + "="*70)
-    print(" " * 20 + "MODEL COMPARISON RESULTS")
+    print(" " * 18 + "BATTERY BASELINE COMPARISON RESULTS")
     print("="*70)
     print(results_df.to_markdown(index=False))
     print("="*70 + "\n")
     
-    csv_out = os.path.join(PROCESSED_DATA_DIR, "model_comparison_results.csv")
-    results_df.to_csv(csv_out, index=False)
-    print(f"Saved clean table to: {csv_out}")
-    print("You can open this CSV in Excel and copy the table directly into PowerPoint.")
+    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
+        results_df.to_csv(os.path.join(d, "model_comparison_results.csv"), index=False)
     
-    # ---------------------------------------------------------
-    # Save the actual predictions for the winning model 
-    # ---------------------------------------------------------
     best_model = GradientBoostingRegressor(n_estimators=100, random_state=42)
     best_model.fit(train_data[feature_cols], y_train)
     final_preds = best_model.predict(test_data[feature_cols])
@@ -96,9 +95,10 @@ def main():
         'predicted_RUL': np.round(final_preds, 1)
     })
     
-    pred_out = os.path.join(PROCESSED_DATA_DIR, "battery_18_predictions.csv")
-    pred_df.to_csv(pred_out, index=False)
-    print(f"Saved raw cycle-by-cycle predictions to: {pred_out}")
+    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
+        pred_df.to_csv(os.path.join(d, "battery_18_predictions.csv"), index=False)
+        
+    print("Battery baseline comparisons completed and saved.")
 
 if __name__ == "__main__":
     main()

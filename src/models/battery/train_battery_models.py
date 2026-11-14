@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import math
 import numpy as np
 import pandas as pd
@@ -10,7 +11,16 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-PROCESSED_DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'processed'))
+def get_project_root():
+    current = Path(__file__).resolve()
+    for parent in [current] + list(current.parents):
+        if (parent / 'data').exists() and (parent / 'src').exists():
+            return parent
+    return current.parents[3]
+
+PROJECT_ROOT = get_project_root()
+PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
+BATTERY_PROCESSED_DIR = os.path.join(PROCESSED_DATA_DIR, 'battery')
 TRAIN_PATH = os.path.join(PROCESSED_DATA_DIR, 'train_battery.csv')
 TEST_PATH = os.path.join(PROCESSED_DATA_DIR, 'test_battery.csv')
 
@@ -24,7 +34,7 @@ def phm_score(y_true, y_pred):
 
 def asymmetric_phm_objective(y_true, y_pred):
     d = np.clip(y_pred - y_true, -35.0, 35.0)
-    # Penalize late predictions (y_pred > y_true) heavily
+    # Heavily penalize late predictions (y_pred > y_true)
     grad = np.where(d > 0, (1.0 / 10.0) * np.exp(d / 10.0), -(1.0 / 13.0) * np.exp(-d / 13.0))
     hess = np.where(d > 0, (1.0 / 100.0) * np.exp(d / 10.0), (1.0 / 169.0) * np.exp(-d / 13.0))
     hess = np.clip(hess, 1e-4, 100.0)
@@ -65,6 +75,7 @@ def create_sliding_sequences(df, feature_cols, window_size=WINDOW_SIZE):
     return np.array(X_seq, dtype=np.float32), np.array(y_seq, dtype=np.float32), np.array(cycles)
 
 def main():
+    os.makedirs(BATTERY_PROCESSED_DIR, exist_ok=True)
     train_data = pd.read_csv(TRAIN_PATH)
     test_data = pd.read_csv(TEST_PATH)
 
@@ -178,18 +189,17 @@ def main():
     preds_df = pd.DataFrame(predictions)
 
     print("\n" + "="*85)
-    print(" " * 24 + "FINAL MODEL EVALUATION (BATTERY 18)")
+    print(" " * 20 + "FINAL BATTERY MODEL EVALUATION (CELL 18)")
     print("="*85)
     print(results_df.to_markdown(index=False))
     print("="*85 + "\n")
 
-    summary_file = os.path.join(PROCESSED_DATA_DIR, 'final_model_comparison.csv')
-    preds_file = os.path.join(PROCESSED_DATA_DIR, 'battery_18_all_model_predictions.csv')
-    results_df.to_csv(summary_file, index=False)
-    preds_df.to_csv(preds_file, index=False)
+    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
+        results_df.to_csv(os.path.join(d, 'final_model_comparison.csv'), index=False)
+        results_df.to_csv(os.path.join(d, 'battery_final_model_comparison.csv'), index=False)
+        preds_df.to_csv(os.path.join(d, 'battery_18_all_model_predictions.csv'), index=False)
 
-    print(f"Comparison metrics saved to: {summary_file}")
-    print(f"Full predictions saved to: {preds_file}")
+    print(f"Comparison metrics and predictions saved to:\n  {PROCESSED_DATA_DIR}\n  {BATTERY_PROCESSED_DIR}")
 
 if __name__ == '__main__':
     main()

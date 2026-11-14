@@ -1,11 +1,21 @@
 import os
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import math
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-PROCESSED_DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'processed'))
+def get_project_root():
+    current = Path(__file__).resolve()
+    for parent in [current] + list(current.parents):
+        if (parent / 'data').exists() and (parent / 'src').exists():
+            return parent
+    return current.parents[3]
+
+PROJECT_ROOT = get_project_root()
+PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
+
 feature_cols = ["v_mean", "v_min", "v_max", "c_mean", "c_min", "c_max", "t_mean", "t_min", "t_max", "capacity"]
 
 train_data = pd.read_csv(os.path.join(PROCESSED_DATA_DIR, "train_battery.csv"))
