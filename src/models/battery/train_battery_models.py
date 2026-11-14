@@ -19,10 +19,9 @@ def get_project_root():
     return current.parents[3]
 
 PROJECT_ROOT = get_project_root()
-PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
-BATTERY_PROCESSED_DIR = os.path.join(PROCESSED_DATA_DIR, 'battery')
-TRAIN_PATH = os.path.join(PROCESSED_DATA_DIR, 'train_battery.csv')
-TEST_PATH = os.path.join(PROCESSED_DATA_DIR, 'test_battery.csv')
+BATTERY_PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'battery')
+TRAIN_PATH = os.path.join(BATTERY_PROCESSED_DIR, 'train_battery.csv')
+TEST_PATH = os.path.join(BATTERY_PROCESSED_DIR, 'test_battery.csv')
 
 FEATURE_COLS = ['v_mean', 'v_min', 'v_max', 'c_mean', 'c_min', 'c_max', 't_mean', 't_min', 't_max', 'capacity']
 RUL_CAP = 125.0
@@ -194,12 +193,13 @@ def main():
     print(results_df.to_markdown(index=False))
     print("="*85 + "\n")
 
-    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
-        results_df.to_csv(os.path.join(d, 'final_model_comparison.csv'), index=False)
-        results_df.to_csv(os.path.join(d, 'battery_final_model_comparison.csv'), index=False)
-        preds_df.to_csv(os.path.join(d, 'battery_18_all_model_predictions.csv'), index=False)
+    summary_file = os.path.join(BATTERY_PROCESSED_DIR, 'battery_final_model_comparison.csv')
+    preds_file = os.path.join(BATTERY_PROCESSED_DIR, 'battery_18_all_model_predictions.csv')
+    results_df.to_csv(summary_file, index=False)
+    preds_df.to_csv(preds_file, index=False)
 
-    print(f"Comparison metrics and predictions saved to:\n  {PROCESSED_DATA_DIR}\n  {BATTERY_PROCESSED_DIR}")
+    print(f"Comparison metrics saved to: {summary_file}")
+    print(f"Full predictions saved to: {preds_file}")
 
 if __name__ == '__main__':
     main()

@@ -114,7 +114,7 @@ All models were evaluated on the held-out **Battery 18**:
 
 - **Slide 1: Problem Definition & Battery EOL Threshold**
   - Mission: Predict Remaining Useful Life (RUL) of Li-ion battery before capacity drops below $1.4\,\text{Ahr}$ ($30\%$ fade).
-  - Include graph: `reports/figures/capacity_fade.png`.
+  - Include graph: `reports/battery/figures/capacity_fade.png`.
 - **Slide 2: The Industrial Danger of Late Predictions**
   - Why standard MSE fails: Symmetrically penalizes late vs early errors.
   - Introduce the NASA PHM08 asymmetric exponential loss penalty.
@@ -123,7 +123,7 @@ All models were evaluated on the held-out **Battery 18**:
   - PyTorch LSTM with sliding window ($W=10$) to capture sequential temporal dynamics.
 - **Slide 4: Model Benchmark & Comparison Table**
   - Present the comparison table highlighting Asymmetric XGBoost as the winning model (RMSE $8.32$, MAE $6.06$, PHM $106.81$).
-  - Include graph: `reports/figures/rul_predictions_comparison.png`.
+  - Include graph: `reports/battery/figures/rul_predictions_comparison.png`.
 - **Slide 5: Late-Stage Correction & Engineering Takeaway**
-  - Show zoomed-in graph: `reports/figures/late_stage_overprediction_fix.png`.
+  - Show zoomed-in graph: `reports/battery/figures/late_stage_overprediction_fix.png`.
   - Conclude: Custom asymmetric objectives turn classical ML models into safe, fail-fast industrial prognostics systems.

@@ -13,8 +13,7 @@ def get_project_root():
 
 PROJECT_ROOT = get_project_root()
 RAW_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'raw', 'Battery', '5. Battery Data Set', 'Extracted')
-PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
-BATTERY_PROCESSED_DIR = os.path.join(PROCESSED_DATA_DIR, 'battery')
+BATTERY_PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'battery')
 
 def process_battery(mat_file, unit_number):
     mat = scipy.io.loadmat(mat_file)
@@ -43,7 +42,6 @@ def process_battery(mat_file, unit_number):
     return pd.DataFrame(records)
 
 def main():
-    os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
     os.makedirs(BATTERY_PROCESSED_DIR, exist_ok=True)
     
     df = pd.concat([process_battery(os.path.join(RAW_DATA_DIR, f'B00{b:02d}.mat'), b) for b in [5, 6, 7, 18]], ignore_index=True)
@@ -58,14 +56,10 @@ def main():
     train_df = df[df['unit_number'].isin([5, 6, 7])]
     test_df = df[df['unit_number'] == 18]
     
-    # Save to data/processed
-    train_df.to_csv(os.path.join(PROCESSED_DATA_DIR, 'train_battery.csv'), index=False)
-    test_df.to_csv(os.path.join(PROCESSED_DATA_DIR, 'test_battery.csv'), index=False)
-    
-    # Also save to data/processed/battery
+    # Exclusively save into data/processed/battery/
     train_df.to_csv(os.path.join(BATTERY_PROCESSED_DIR, 'train_battery.csv'), index=False)
     test_df.to_csv(os.path.join(BATTERY_PROCESSED_DIR, 'test_battery.csv'), index=False)
-    print("Battery dataset successfully preprocessed and saved.")
+    print(f"Preprocessed battery data saved exclusively to: {BATTERY_PROCESSED_DIR}")
 
 if __name__ == '__main__':
     main()

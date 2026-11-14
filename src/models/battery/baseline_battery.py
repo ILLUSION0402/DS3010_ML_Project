@@ -14,12 +14,12 @@ def get_project_root():
     return current.parents[3]
 
 PROJECT_ROOT = get_project_root()
-PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
+BATTERY_PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'battery')
 
 feature_cols = ["v_mean", "v_min", "v_max", "c_mean", "c_min", "c_max", "t_mean", "t_min", "t_max", "capacity"]
 
-train_data = pd.read_csv(os.path.join(PROCESSED_DATA_DIR, "train_battery.csv"))
-test_data = pd.read_csv(os.path.join(PROCESSED_DATA_DIR, "test_battery.csv"))
+train_data = pd.read_csv(os.path.join(BATTERY_PROCESSED_DIR, "train_battery.csv"))
+test_data = pd.read_csv(os.path.join(BATTERY_PROCESSED_DIR, "test_battery.csv"))
 
 feature_cols = [col for col in feature_cols if train_data[col].nunique() > 5]
 

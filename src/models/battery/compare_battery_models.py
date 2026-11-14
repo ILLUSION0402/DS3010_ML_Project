@@ -16,10 +16,9 @@ def get_project_root():
     return current.parents[3]
 
 PROJECT_ROOT = get_project_root()
-PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
-BATTERY_PROCESSED_DIR = os.path.join(PROCESSED_DATA_DIR, 'battery')
-TRAIN_PATH = os.path.join(PROCESSED_DATA_DIR, "train_battery.csv")
-TEST_PATH = os.path.join(PROCESSED_DATA_DIR, "test_battery.csv")
+BATTERY_PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'battery')
+TRAIN_PATH = os.path.join(BATTERY_PROCESSED_DIR, "train_battery.csv")
+TEST_PATH = os.path.join(BATTERY_PROCESSED_DIR, "test_battery.csv")
 
 def phm_score(y_true, y_pred):
     score = 0
@@ -82,8 +81,7 @@ def main():
     print(results_df.to_markdown(index=False))
     print("="*70 + "\n")
     
-    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
-        results_df.to_csv(os.path.join(d, "model_comparison_results.csv"), index=False)
+    results_df.to_csv(os.path.join(BATTERY_PROCESSED_DIR, "model_comparison_results.csv"), index=False)
     
     best_model = GradientBoostingRegressor(n_estimators=100, random_state=42)
     best_model.fit(train_data[feature_cols], y_train)
@@ -95,10 +93,8 @@ def main():
         'predicted_RUL': np.round(final_preds, 1)
     })
     
-    for d in [PROCESSED_DATA_DIR, BATTERY_PROCESSED_DIR]:
-        pred_df.to_csv(os.path.join(d, "battery_18_predictions.csv"), index=False)
-        
-    print("Battery baseline comparisons completed and saved.")
+    pred_df.to_csv(os.path.join(BATTERY_PROCESSED_DIR, "battery_18_predictions.csv"), index=False)
+    print(f"Battery baseline comparisons saved to: {BATTERY_PROCESSED_DIR}")
 
 if __name__ == "__main__":
     main()

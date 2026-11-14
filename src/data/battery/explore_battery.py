@@ -13,22 +13,15 @@ def get_project_root():
     return current.parents[3]
 
 PROJECT_ROOT = get_project_root()
-PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
-FIGURES_DIR = os.path.join(PROJECT_ROOT, 'reports', 'figures')
+BATTERY_PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'battery')
 BATTERY_FIGURES_DIR = os.path.join(PROJECT_ROOT, 'reports', 'battery', 'figures')
-
-os.makedirs(FIGURES_DIR, exist_ok=True)
 os.makedirs(BATTERY_FIGURES_DIR, exist_ok=True)
-
-def save_fig(fig, filename):
-    for d in [FIGURES_DIR, BATTERY_FIGURES_DIR]:
-        fig.savefig(os.path.join(d, filename), dpi=300)
 
 def main():
     sns.set_theme(style='whitegrid', font_scale=1.1)
 
-    train_df = pd.read_csv(os.path.join(PROCESSED_DATA_DIR, 'train_battery.csv'))
-    test_df = pd.read_csv(os.path.join(PROCESSED_DATA_DIR, 'test_battery.csv'))
+    train_df = pd.read_csv(os.path.join(BATTERY_PROCESSED_DIR, 'train_battery.csv'))
+    test_df = pd.read_csv(os.path.join(BATTERY_PROCESSED_DIR, 'test_battery.csv'))
 
     # 1. Capacity Degradation Over Cycles
     fig1, ax1 = plt.subplots(figsize=(10, 6))
@@ -45,13 +38,13 @@ def main():
     ax1.set_ylabel('Measured Capacity (Ahr)', fontsize=12)
     ax1.legend(frameon=True, loc='upper right')
     fig1.tight_layout()
-    save_fig(fig1, 'capacity_fade.png')
+    fig1.savefig(os.path.join(BATTERY_FIGURES_DIR, 'capacity_fade.png'), dpi=300)
     plt.close(fig1)
 
     # 2. RUL Trajectory Comparison
-    preds_file = os.path.join(PROCESSED_DATA_DIR, 'battery_18_all_model_predictions.csv')
+    preds_file = os.path.join(BATTERY_PROCESSED_DIR, 'battery_18_all_model_predictions.csv')
     if not os.path.exists(preds_file):
-        preds_file = os.path.join(PROCESSED_DATA_DIR, 'battery_18_predictions.csv')
+        preds_file = os.path.join(BATTERY_PROCESSED_DIR, 'battery_18_predictions.csv')
     preds_df = pd.read_csv(preds_file)
 
     fig2, ax2 = plt.subplots(figsize=(11, 6))
@@ -70,8 +63,8 @@ def main():
     ax2.set_ylabel('Remaining Useful Life (Cycles)', fontsize=12)
     ax2.legend(frameon=True, loc='upper right')
     fig2.tight_layout()
-    save_fig(fig2, 'rul_predictions_comparison.png')
-    save_fig(fig2, 'rul_predictions.png')
+    fig2.savefig(os.path.join(BATTERY_FIGURES_DIR, 'rul_predictions_comparison.png'), dpi=300)
+    fig2.savefig(os.path.join(BATTERY_FIGURES_DIR, 'rul_predictions.png'), dpi=300)
     plt.close(fig2)
 
     # 3. Late-Stage Optimism Zoom
@@ -91,10 +84,10 @@ def main():
     ax3.set_ylabel('Remaining Useful Life (Cycles)', fontsize=12)
     ax3.legend(frameon=True, loc='upper right')
     fig3.tight_layout()
-    save_fig(fig3, 'late_stage_overprediction_fix.png')
+    fig3.savefig(os.path.join(BATTERY_FIGURES_DIR, 'late_stage_overprediction_fix.png'), dpi=300)
     plt.close(fig3)
 
-    print(f"All battery figures successfully saved to:\n  {FIGURES_DIR}\n  {BATTERY_FIGURES_DIR}")
+    print(f"All battery figures successfully saved to: {BATTERY_FIGURES_DIR}")
 
 if __name__ == '__main__':
     main()
