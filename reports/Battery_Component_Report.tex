@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\geometry{a4paper, margin=0.9in}
+
+\title{\textbf{Predictive Maintenance: NASA Lithium-Ion Battery RUL Prediction}}
+\author{\textbf{Component 3: Battery RUL Prognostics} \\ Saketh \\ Department of Data Science, IIT Palakkad}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In industrial predictive maintenance, unexpected lithium-ion battery failure introduces hazardous downtime and safety risks. This report investigates Remaining Useful Life (RUL) estimation using the NASA Prognostics Battery Dataset under controlled operational conditions ($24^\circ\text{C}$, CCCV charging, 2A discharge). We formulate a piecewise linear RUL target anchored to an End-of-Life (EOL) capacity threshold of $1.4\,\text{Ahr}$. We compare classical ensemble baselines (Random Forest, Gradient Boosting) against a custom Asymmetric XGBoost regressor that incorporates an asymmetric exponential loss objective tailored to the NASA PHM08 metric, and a sequence-based PyTorch Long Short-Term Memory (LSTM) network with sliding window temporal representations. Empirical results on held-out Cell 18 demonstrate that Asymmetric XGBoost achieves superior performance ($\text{RMSE} = 8.32$, $\text{MAE} = 6.06$, $\text{PHM Score} = 106.81$), successfully suppressing the dangerous late-stage optimistic bias prevalent in standard mean-squared error models.
+\end{abstract}
+
+\section{Introduction and Problem Formulation}
+Predicting the Remaining Useful Life (RUL) of lithium-ion batteries is vital for aerospace systems, autonomous vehicles, and grid energy storage. In real-world deployment, maintenance teams require reliable early warnings. Crucially, late predictions ($\hat{y} > y$) are far more hazardous than early predictions ($\hat{y} < y$): prematurely replacing a functional battery incurs modest economic costs, while operating a depleted battery beyond its functional lifetime can trigger abrupt systemic breakdown or thermal runaway.
+
+\section{Dataset and Preprocessing Pipeline}
+
+\subsection{Benchmark Operating Conditions}
+We analyze four NASA benchmark 18650 Li-ion cells (\textbf{B0005, B0006, B0007, and B0018}) tested at $24^\circ\text{C}$ ambient temperature. Each cell underwent repeated charging at $1.5\,\text{A}$ to $4.2\,\text{V}$ and constant-current discharging at $2.0\,\text{A}$ until cutoff voltage.
+
+\subsection{End-of-Life (EOL) and Piecewise Target Labeling}
+Each cell possesses a rated nominal capacity of $2.0\,\text{Ahr}$. Industry standards define functional End-of-Life (EOL) as a $30\%$ reduction in rated capacity ($1.4\,\text{Ahr}$). The exact EOL cycle index $C_{\text{EOL}}$ was extracted for each cell ($C_{\text{EOL}} = 125, 109,$ and $97$ for Cells 5, 6, and 18, respectively). The target RUL at cycle $t$ is defined via a piecewise degradation model:
+\begin{equation}
+RUL(t) = \min\left(RUL_{\max},\, \max\left(0,\, C_{\text{EOL}} - t\right)\right)
+\end{equation}
+with $RUL_{\max} = 125$ cycles to avoid uninformative early-life saturation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{capacity_fade.png}
+    \caption{Capacity degradation curves for Training cells (5, 6, 7) and held-out Test cell 18 across consecutive discharge cycles against the $1.4\,\text{Ahr}$ EOL threshold.}
+    \label{fig:capacity}
+\end{figure}
+
+\subsection{Feature Extraction and Data Partitioning}
+Continuous time-series sensor traces (voltage, current, and temperature) measured during each discharge cycle were aggregated into 10 summary features:
+\begin{center}
+\texttt{v\_mean, v\_min, v\_max, c\_mean, c\_min, c\_max, t\_mean, t\_min, t\_max, capacity}
+\end{center}
+To prevent data leakage, evaluation was performed via strict unit-level holdout: Cells 5, 6, and 7 ($504$ total cycles) served as training data, while Cell 18 ($132$ cycles) was reserved exclusively for final evaluation.
+
+\section{Industrial Evaluation: NASA PHM08 Metric}
+Standard metrics like Mean Squared Error (MSE) penalize errors symmetrically. In industrial prognostics, late predictions are penalized exponentially via the NASA PHM08 metric:
+\begin{equation}
+S_{\text{PHM}} = \sum_{i=1}^N s_i, \quad s_i = \begin{cases} 
+\exp\left(\frac{d_i}{13}\right) - 1 & \text{for } d_i \ge 0 \quad (\text{Late Error}) \\[4pt]
+\exp\left(-\frac{d_i}{10}\right) - 1 & \text{for } d_i < 0 \quad (\text{Early Error})
+\end{cases}
+\end{equation}
+where $d_i = \hat{y}_i - y_i$.
+
+\section{Modeling Methodology}
+
+\subsection{Asymmetric XGBoost with Custom PHM Objective}
+To penalize late predictions during gradient tree construction, we implemented a custom objective function in XGBoost. For error $d_i = \hat{y}_i - y_i$, the first-order gradient $g_i$ and second-order hessian $h_i$ are formulated as:
+\begin{equation}
+g_i = \begin{cases} 
+\frac{1}{a_{\text{late}}} \exp\left(\frac{d_i}{a_{\text{late}}}\right) & \text{if } d_i > 0 \\[6pt]
+-\frac{1}{a_{\text{early}}} \exp\left(-\frac{d_i}{a_{\text{early}}}\right) & \text{if } d_i \le 0 
+\end{cases}, \quad
+h_i = \begin{cases} 
+\frac{1}{a_{\text{late}}^2} \exp\left(\frac{d_i}{a_{\text{late}}}\right) & \text{if } d_i > 0 \\[6pt]
+\frac{1}{a_{\text{early}}^2} \exp\left(-\frac{d_i}{a_{\text{early}}}\right) & \text{if } d_i \le 0 
+\end{cases}
+\end{equation}
+where $a_{\text{late}} = 10.0$ and $a_{\text{early}} = 13.0$, bounded by hessian clipping ($h_i \in [10^{-4}, 100]$) to maintain optimization stability.
+
+\subsection{PyTorch LSTM Sequence Model}
+To model temporal dynamics, cycle features were reshaped using a sliding window of length $W = 10$: $\mathbf{X}_t = [\mathbf{x}_{t-9}, \dots, \mathbf{x}_t] \in \mathbb{R}^{10 \times 10}$. The network consists of a 2-layer stacked LSTM ($48$ hidden units, dropout $0.1$), followed by dense layers ($48 \rightarrow 24 \rightarrow 1$) with Smooth L1 loss and Adam optimization.
+
+\section{Results and Discussion}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+\textbf{Model Architecture} & \textbf{Loss Function} & \textbf{RMSE} & \textbf{MAE} & \textbf{PHM Score} \\ \midrule
+Random Forest (Baseline) & Standard MSE & 8.92 & 7.37 & 144.77 \\
+Gradient Boosting (Baseline) & Standard MSE & 8.85 & 7.52 & 130.99 \\
+\textbf{Asymmetric XGBoost} & \textbf{Custom Asymmetric PHM} & \textbf{8.32} & \textbf{6.06} & \textbf{106.81} \\
+PyTorch LSTM ($W=10$) & Smooth L1 Loss & 27.13 & 21.91 & 1230.67 \\ \bottomrule
+\end{tabular}
+\caption{Model comparison on held-out Cell 18.}
+\label{tab:results}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{rul_predictions_comparison.png}
+    \caption{Trajectory comparison across all cycles for Cell 18.}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{late_stage_overprediction_fix.png}
+    \caption{Zoomed-in inspection of late-stage cycles (70--132) showing elimination of late optimism.}
+    \label{fig:fix}
+\end{figure}
+
+\subsection{Key Findings}
+\begin{enumerate}
+    \item \textbf{Elimination of Late-Stage Optimism:} As shown in Figure \ref{fig:fix}, standard MSE models overpredict remaining cycles near EOL (cycle 97). Asymmetric XGBoost rapidly pulls predictions to zero, achieving the lowest PHM score ($106.81$).
+    \item \textbf{Low-Data Regime Dynamics:} The PyTorch LSTM required significantly more sequence history across diverse cell trajectories than the $504$ available training cycles, causing it to overfit the longer lifespans of Cells 5 and 7. Boosted tree models excelled on instantaneous tabular discharge metrics.
+\end{enumerate}
+
+\section{Conclusion}
+By integrating physical EOL criteria ($1.4\,\text{Ahr}$), cycle feature extraction, and a custom asymmetric objective function into XGBoost, we constructed an industrial prognostics model that delivers high accuracy and prevents catastrophic late-stage failure.
+
+\end{document}
