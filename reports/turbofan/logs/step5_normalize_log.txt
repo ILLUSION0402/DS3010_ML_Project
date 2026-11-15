@@ -1,0 +1,7 @@
+op_setting_1 - unique values: 158 - std: 0.002187313449015146
+op_setting_2 - unique values: 13 - std: 0.00029306212456614496
+op_setting_3 - unique values: 1 - std: 0.0
+
+Any NaN in train? False
+Any NaN in test? False
+Final columns: ['unit_number', 'cycle', 'op_setting_1', 'op_setting_2', 'sensor_2', 'sensor_3', 'sensor_4', 'sensor_7', 'sensor_8', 'sensor_9', 'sensor_11', 'sensor_12', 'sensor_13', 'sensor_14', 'sensor_15', 'sensor_17', 'sensor_20', 'sensor_21', 'RUL']

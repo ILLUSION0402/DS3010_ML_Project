@@ -1,0 +1,19 @@
+Feature count: 96
+
+=== WITH FEATURE ENGINEERING ===
+RMSE: 14.041
+MAE: 9.783
+PHM08 score: 351.29
+
+Top 10 features:
+sensor_3_mean      0.518661
+sensor_2_mean      0.098881
+sensor_11_delta    0.097141
+sensor_9_delta     0.044698
+sensor_4_mean      0.024706
+sensor_4_max       0.017134
+sensor_14_delta    0.013167
+sensor_15_mean     0.012619
+sensor_20_mean     0.010695
+sensor_17_mean     0.009783
+dtype: float64

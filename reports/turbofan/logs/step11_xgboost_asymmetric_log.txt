@@ -1,0 +1,28 @@
+CV-chosen window: Random Forest 5 | XGBoost 5
+
+=== PART A: 100 test engines ===
+RF window 20                 RMSE  14.041   MAE   9.783   PHM08    351.29
+RF window 5                  RMSE  13.302   MAE   9.247   PHM08    318.76
+XGBoost window 5             RMSE  13.138   MAE   9.701   PHM08    279.34
+
+=== PART B: choosing LATE_WEIGHT by grouped CV (window 5) ===
+              rmse          mae         phm08        
+              mean   std   mean   std    mean     std
+late_weight                                          
+1.0          14.27  1.03  10.32  0.93  435.50  132.59
+1.5          14.42  0.98  10.37  1.03  431.77  107.09
+2.0          14.42  1.17  10.51  1.17  413.94  113.01
+3.0          14.36  1.38  10.48  1.36  403.00   87.03
+5.0          14.29  1.32  10.59  1.33  374.49   85.86
+8.0          14.59  1.43  10.91  1.26  391.58   90.16
+12.0         14.94  1.63  11.12  1.56  397.90   49.56
+Chosen LATE_WEIGHT (lowest mean CV PHM08): 5.0
+
+XGBoost asym w=5             RMSE  14.614   MAE  10.245   PHM08    333.11
+
+           model   rmse    mae   phm08  late_predictions  late_by_30_plus  worst_late_miss
+    RF window 20 14.041  9.783 351.290                60                3           37.790
+     RF window 5 13.302  9.247 318.761                58                4           38.040
+XGBoost window 5 13.138  9.701 279.341                52                2           35.761
+XGBoost asym w=5 14.614 10.245 333.108                47                1           36.770
+Saved test_results_tree_models.csv and predictions_tree_models.csv

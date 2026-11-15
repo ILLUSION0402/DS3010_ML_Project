@@ -1,0 +1,25 @@
+Sensor | unique values | std
+sensor_1 | 1 | 0.0
+sensor_2 | 310 | 0.500053
+sensor_3 | 3012 | 6.13115
+sensor_4 | 4051 | 9.000605
+sensor_5 | 1 | 0.0
+sensor_6 | 2 | 0.001389
+sensor_7 | 513 | 0.885092
+sensor_8 | 53 | 0.070985
+sensor_9 | 6403 | 22.08288
+sensor_10 | 1 | 0.0
+sensor_11 | 159 | 0.267087
+sensor_12 | 427 | 0.737553
+sensor_13 | 56 | 0.071919
+sensor_14 | 6078 | 19.076176
+sensor_15 | 1918 | 0.037505
+sensor_16 | 1 | 0.0
+sensor_17 | 13 | 1.548763
+sensor_18 | 1 | 0.0
+sensor_19 | 1 | 0.0
+sensor_20 | 120 | 0.180746
+sensor_21 | 4745 | 0.108251
+
+Dropping: ['sensor_1', 'sensor_5', 'sensor_6', 'sensor_10', 'sensor_16', 'sensor_18', 'sensor_19']
+Train rows: 20631 Test rows: 13096

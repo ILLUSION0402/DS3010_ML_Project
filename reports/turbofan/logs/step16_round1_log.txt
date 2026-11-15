@@ -1,0 +1,28 @@
+baseline               RMSE  16.27 +- 1.55   MAE  11.91   PHM08   569.6   epochs  9.0   (115 s)
+seq 20                 RMSE  17.78 +- 1.53   MAE  12.69   PHM08  1059.3   epochs 10.8   (80 s)
+seq 40                 RMSE  16.05 +- 2.53   MAE  11.53   PHM08   709.4   epochs  8.6   (129 s)
+seq 50                 RMSE  15.46 +- 1.44   MAE  11.10   PHM08   483.6   epochs 12.2   (243 s)
+hidden 32              RMSE  17.14 +- 1.80   MAE  12.61   PHM08   683.8   epochs 15.4   (118 s)
+hidden 128             RMSE  16.87 +- 1.07   MAE  11.89   PHM08   744.3   epochs  8.8   (284 s)
+1 layer                RMSE  16.20 +- 1.90   MAE  12.07   PHM08   560.6   epochs 10.6   (66 s)
+dropout 0              RMSE  15.82 +- 1.54   MAE  11.65   PHM08   490.8   epochs  9.6   (663 s)
+dropout 0.4            RMSE  16.31 +- 1.61   MAE  11.81   PHM08   546.9   epochs  9.2   (142 s)
+lr 0.0005              RMSE  15.91 +- 1.54   MAE  11.45   PHM08   572.2   epochs 15.8   (180 s)
+lr 0.003               RMSE  16.79 +- 2.15   MAE  12.20   PHM08   649.5   epochs  6.4   (88 s)
+batch 64               RMSE  16.70 +- 1.30   MAE  12.28   PHM08   625.9   epochs  4.2   (132 s)
+
+=== ALL SETTINGS, sorted by mean CV RMSE (100 cut points x 5 folds) ===
+              rmse    mae    phm08  best_epoch  rmse_std  folds_better_than_baseline
+setting                                                                             
+seq 50       15.46  11.10   483.62        12.2      1.44                           3
+dropout 0    15.82  11.65   490.80         9.6      1.54                           3
+lr 0.0005    15.91  11.45   572.20        15.8      1.54                           3
+seq 40       16.05  11.53   709.36         8.6      2.53                           2
+1 layer      16.20  12.07   560.60        10.6      1.90                           2
+baseline     16.27  11.91   569.56         9.0      1.55                           0
+dropout 0.4  16.31  11.81   546.89         9.2      1.61                           2
+batch 64     16.70  12.28   625.94         4.2      1.30                           1
+lr 0.003     16.79  12.20   649.53         6.4      2.15                           1
+hidden 128   16.87  11.89   744.33         8.8      1.07                           1
+hidden 32    17.14  12.61   683.79        15.4      1.80                           1
+seq 20       17.78  12.69  1059.33        10.8      1.53                           0

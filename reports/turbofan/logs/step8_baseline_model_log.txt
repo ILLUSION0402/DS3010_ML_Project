@@ -1,0 +1,4 @@
+=== BASELINE (no feature engineering) ===
+RMSE: 17.193
+MAE: 12.128
+PHM08 score: 874.62

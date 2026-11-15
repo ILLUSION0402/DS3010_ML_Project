@@ -1,0 +1,39 @@
+Windows: RF 5 | XGBoost 5
+RF SHAP took 65 seconds
+Largest additivity error (cycles): 0.000195
+Average prediction the pushes start from: 86.81 cycles
+
+Top 15 by Random Forest SHAP (share = fraction of total |SHAP|):
+        feature  rf_shap_share  rank_rf_shap  rf_gini  rank_rf_gini  xgb_shap_share  rank_xgb_shap
+  sensor_4_mean          0.306             1    0.618             1           0.113              1
+sensor_11_delta          0.106             2    0.069             3           0.058              3
+ sensor_9_delta          0.092             3    0.072             2           0.050              4
+ sensor_11_mean          0.062             4    0.048             4           0.087              2
+ sensor_7_delta          0.030             5    0.014             5           0.024             12
+sensor_13_delta          0.028             6    0.012             7           0.026             11
+sensor_14_delta          0.024             7    0.012             6           0.029              9
+ sensor_8_delta          0.023             8    0.007            10           0.031              8
+sensor_20_delta          0.023             9    0.006            11           0.035              6
+sensor_15_delta          0.022            10    0.008             8           0.026             10
+   sensor_4_max          0.016            11    0.004            14           0.008             34
+sensor_12_delta          0.015            12    0.007             9           0.022             13
+ sensor_4_delta          0.013            13    0.004            19           0.018             16
+  sensor_14_max          0.012            14    0.004            15           0.012             24
+  sensor_9_mean          0.011            15    0.004            17           0.017             17
+
+Same thing, added up per original sensor (all 6 versions of each sensor together):
+           rf_shap_share  rf_gini  xgb_shap_share
+sensor                                           
+sensor_4           0.340    0.628           0.147
+sensor_11          0.189    0.125           0.180
+sensor_9           0.124    0.086           0.088
+sensor_14          0.056    0.025           0.070
+sensor_7           0.042    0.021           0.047
+sensor_13          0.036    0.017           0.048
+sensor_15          0.035    0.015           0.080
+sensor_12          0.035    0.019           0.042
+
+Share of RF SHAP on engineered features: 97.4%
+
+Worst late miss: test engine 50, true RUL 79, predicted 117.0 (38.0 cycles late)
+Charts saved.

@@ -1,0 +1,42 @@
+skipping baseline (already done)
+skipping seq 20 (already done)
+skipping seq 40 (already done)
+skipping seq 50 (already done)
+skipping hidden 32 (already done)
+skipping hidden 128 (already done)
+skipping 1 layer (already done)
+skipping dropout 0 (already done)
+skipping dropout 0.4 (already done)
+skipping lr 0.0005 (already done)
+skipping lr 0.003 (already done)
+skipping batch 64 (already done)
+skipping seq 70 (already done)
+skipping seq50+drop0 (already done)
+skipping seq50+lr0.0005 (already done)
+skipping seq50+drop0+lr0.0005 (already done)
+skipping seq70+drop0+lr0.0005 (already done)
+seq90+drop0+lr0.0005   RMSE  14.81 +- 0.92   MAE  10.45   PHM08   432.4   epochs 16.0   (259 s)
+seq110+drop0+lr0.0005  RMSE  14.55 +- 1.13   MAE  10.32   PHM08   457.0   epochs 13.0   (310 s)
+
+=== ALL SETTINGS, sorted by mean CV RMSE (100 cut points x 5 folds) ===
+                        rmse    mae    phm08  best_epoch  rmse_std  folds_better_than_baseline
+setting                                                                                       
+seq70+drop0+lr0.0005   14.21  10.11   372.92        14.6      0.92                           5
+seq 70                 14.35  10.43   378.25        10.2      1.15                           5
+seq110+drop0+lr0.0005  14.55  10.32   457.05        13.0      1.13                           4
+seq50+drop0+lr0.0005   14.67  10.36   419.52        16.2      0.80                           4
+seq50+lr0.0005         14.71  10.11   462.62        15.4      1.01                           5
+seq90+drop0+lr0.0005   14.81  10.45   432.37        16.0      0.92                           5
+seq 50                 15.46  11.10   483.62        12.2      1.44                           3
+seq50+drop0            15.66  10.92   538.09        13.0      0.62                           3
+dropout 0              15.82  11.65   490.80         9.6      1.54                           3
+lr 0.0005              15.91  11.45   572.20        15.8      1.54                           3
+seq 40                 16.05  11.53   709.36         8.6      2.53                           2
+1 layer                16.20  12.07   560.60        10.6      1.90                           2
+baseline               16.27  11.91   569.56         9.0      1.55                           0
+dropout 0.4            16.31  11.81   546.89         9.2      1.61                           2
+batch 64               16.70  12.28   625.94         4.2      1.30                           1
+lr 0.003               16.79  12.20   649.53         6.4      2.15                           1
+hidden 128             16.87  11.89   744.33         8.8      1.07                           1
+hidden 32              17.14  12.61   683.79        15.4      1.80                           1
+seq 20                 17.78  12.69  1059.33        10.8      1.53                           0
