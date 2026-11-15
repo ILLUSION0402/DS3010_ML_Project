@@ -1,0 +1,44 @@
+Cut points chosen: 500
+Engines per validation fold: [20, 20, 20, 20, 20]
+window  5  fold 1   RF rmse  13.48 phm   445.1   XGB rmse  13.07 phm   423.3
+window  5  fold 2   RF rmse  15.56 phm   328.7   XGB rmse  14.51 phm   344.9
+window  5  fold 3   RF rmse  16.76 phm   950.9   XGB rmse  15.71 phm   600.2
+window  5  fold 4   RF rmse  15.90 phm   633.4   XGB rmse  14.53 phm   513.6
+window  5  fold 5   RF rmse  13.62 phm   285.7   XGB rmse  13.59 phm   272.7
+window 10  fold 1   RF rmse  12.79 phm   328.0   XGB rmse  12.41 phm   280.5
+window 10  fold 2   RF rmse  15.90 phm   341.0   XGB rmse  14.96 phm   353.3
+window 10  fold 3   RF rmse  17.47 phm   986.4   XGB rmse  16.73 phm   805.2
+window 10  fold 4   RF rmse  16.10 phm   711.9   XGB rmse  14.81 phm   527.9
+window 10  fold 5   RF rmse  14.73 phm   349.0   XGB rmse  14.85 phm   357.4
+window 20  fold 1   RF rmse  14.45 phm   449.1   XGB rmse  11.49 phm   271.4
+window 20  fold 2   RF rmse  16.80 phm   389.8   XGB rmse  16.18 phm   400.5
+window 20  fold 3   RF rmse  18.47 phm   980.4   XGB rmse  17.95 phm   966.5
+window 20  fold 4   RF rmse  17.99 phm  1109.5   XGB rmse  16.52 phm   649.2
+window 20  fold 5   RF rmse  14.25 phm   323.0   XGB rmse  14.31 phm   432.0
+window 30  fold 1   RF rmse  14.13 phm   489.0   XGB rmse  12.74 phm   410.8
+window 30  fold 2   RF rmse  16.72 phm   354.5   XGB rmse  15.53 phm   355.8
+window 30  fold 3   RF rmse  18.00 phm  1024.5   XGB rmse  18.10 phm  1091.7
+window 30  fold 4   RF rmse  18.74 phm  1256.8   XGB rmse  16.66 phm   670.8
+window 30  fold 5   RF rmse  13.64 phm   301.2   XGB rmse  14.47 phm   371.1
+window 40  fold 1   RF rmse  13.24 phm   332.1   XGB rmse  12.29 phm   319.1
+window 40  fold 2   RF rmse  17.30 phm   419.0   XGB rmse  15.79 phm   349.3
+window 40  fold 3   RF rmse  17.88 phm  1049.1   XGB rmse  17.56 phm  1010.9
+window 40  fold 4   RF rmse  18.14 phm   884.2   XGB rmse  16.44 phm   657.0
+window 40  fold 5   RF rmse  13.90 phm   305.1   XGB rmse  13.49 phm   300.2
+
+=== MEAN (STD) OVER 5 FOLDS, 100 cut points per fold ===
+                      rmse          mae         phm08        
+                      mean   std   mean   std    mean     std
+model        window                                          
+RandomForest 5       15.06  1.45  10.83  1.13  528.76  271.71
+             10      15.40  1.75  11.20  1.32  543.26  295.72
+             20      16.39  1.96  12.27  1.56  650.37  365.80
+             30      16.25  2.28  12.10  1.66  685.21  429.31
+             40      16.09  2.34  11.72  1.51  597.88  344.22
+XGBoost      5       14.28  1.01  10.30  0.97  430.95  130.39
+             10      14.75  1.54  10.76  1.15  464.87  210.83
+             20      15.29  2.49  11.39  2.01  543.92  272.52
+             30      15.50  2.05  11.47  1.41  580.04  313.29
+             40      15.11  2.17  11.23  1.26  527.33  307.13
+Best window for RandomForest by mean CV RMSE: 5
+Best window for XGBoost by mean CV RMSE: 5
