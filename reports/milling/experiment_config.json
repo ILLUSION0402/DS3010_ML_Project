@@ -1,0 +1,133 @@
+{
+  "dataset": "NASA PCoE Milling / mill.mat",
+  "rows": 167,
+  "observed_vb_labels": 146,
+  "missing_vb_labels": 21,
+  "train_cases": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "test_cases": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "train_measured_labels": 66,
+  "test_measured_labels": 80,
+  "features": [
+    "DOC",
+    "feed",
+    "smcAC_mean",
+    "smcAC_std",
+    "smcAC_rms",
+    "smcAC_max_abs",
+    "smcAC_kurtosis",
+    "smcAC_skew",
+    "smcAC_energy",
+    "smcDC_mean",
+    "smcDC_std",
+    "smcDC_rms",
+    "smcDC_max_abs",
+    "smcDC_kurtosis",
+    "smcDC_skew",
+    "smcDC_energy",
+    "vib_table_mean",
+    "vib_table_std",
+    "vib_table_rms",
+    "vib_table_max_abs",
+    "vib_table_kurtosis",
+    "vib_table_skew",
+    "vib_table_energy",
+    "vib_spindle_mean",
+    "vib_spindle_std",
+    "vib_spindle_rms",
+    "vib_spindle_max_abs",
+    "vib_spindle_kurtosis",
+    "vib_spindle_skew",
+    "vib_spindle_energy",
+    "AE_table_mean",
+    "AE_table_std",
+    "AE_table_rms",
+    "AE_table_max_abs",
+    "AE_table_kurtosis",
+    "AE_table_skew",
+    "AE_table_energy",
+    "AE_spindle_mean",
+    "AE_spindle_std",
+    "AE_spindle_rms",
+    "AE_spindle_max_abs",
+    "AE_spindle_kurtosis",
+    "AE_spindle_skew",
+    "AE_spindle_energy",
+    "material_1",
+    "material_2"
+  ],
+  "lookback_cuts": 5,
+  "lstm": {
+    "hidden_size": 32,
+    "max_epochs": 160,
+    "symmetric": {
+      "epochs_selected": 11,
+      "validation_loss": 0.16530470550060272,
+      "target_mean_mm": 0.2743939459323883,
+      "target_std_mm": 0.16580499708652496,
+      "validation_cases": [
+        4,
+        8
+      ]
+    },
+    "asymmetric": {
+      "epochs_selected": 24,
+      "validation_loss": 0.3245859444141388,
+      "target_mean_mm": 0.2743939459323883,
+      "target_std_mm": 0.16580499708652496,
+      "validation_cases": [
+        4,
+        8
+      ]
+    }
+  },
+  "xgboost": {
+    "rounds": 160,
+    "max_depth": 2,
+    "learning_rate": 0.035,
+    "target_mean_mm": 0.2743939459323883,
+    "target_std_mm": 0.16580499708652496
+  },
+  "asymmetric_loss": {
+    "form": "weighted Huber on standardised VB",
+    "underprediction_weight": 2.0,
+    "late_stage_weight": 1.5,
+    "late_stage_cutoff_mm": 0.4000000059604645,
+    "late_stage_cutoff_definition": "75th percentile of measured training VB labels; training emphasis only, not a physical failure threshold",
+    "direction": "VB underprediction (predicted wear < measured wear) is penalised more, analogous to overestimating RUL"
+  },
+  "normalization": {
+    "name": "NRMSE_train_range",
+    "denominator_mm": 0.7400000095367432,
+    "formula": "RMSE / (max(VB_train) - min(VB_train))"
+  },
+  "rul": {
+    "constructed": false,
+    "cap": null,
+    "reason": "The source README provides direct VB measurements but no numeric wear-limit threshold; no RUL cap can be justified without a declared threshold."
+  },
+  "phm08_score": {
+    "reported": false,
+    "reason": "PHM08 is a RUL scoring function; this model predicts direct flank wear VB in mm. The asymmetric training loss is PHM08-inspired in risk direction, not the official PHM08 RUL score."
+  },
+  "prediction_floor_mm": 0.0,
+  "prediction_upper_cap_mm": null,
+  "seed": 42
+}

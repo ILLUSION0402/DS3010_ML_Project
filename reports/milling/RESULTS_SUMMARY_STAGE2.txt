@@ -1,0 +1,26 @@
+MILLING STAGE 2 - RUN SUMMARY
+==============================
+Runs loaded: 167
+Original measured VB labels: 146
+VB not measured: 21 (kept missing; not interpolated for Stage 2 model fitting/evaluation)
+Train cases: [1, 2, 3, 4, 5, 6, 7, 8] | measured labels: 66
+Test cases: [9, 10, 11, 12, 13, 14, 15, 16] | measured labels: 80
+Sequence lookback: 5 cuts (same case; current cut included)
+Late-stage cutoff for loss weighting: 0.4000 mm (Q75 of training labels; not a failure threshold)
+
+MODEL COMPARISON (MEASURED LABELS ONLY)
+             model  n_test_measured  RMSE_mm  MAE_mm  NRMSE_train_range  NMAE_train_range  WearAsymMAE_mm  Underprediction_rate_pct  Underprediction_MAE_mm  High_wear_RMSE_mm  High_wear_n
+    LSTM_symmetric               80   0.2331  0.1624             0.3151            0.2194          0.3544                   43.7500                  0.2195             0.3248           34
+   LSTM_asymmetric               80   0.2824  0.1829             0.3816            0.2472          0.4180                   40.0000                  0.2943             0.4088           34
+XGBoost_asymmetric               80   0.2842  0.2033             0.3840            0.2748          0.4489                   45.0000                  0.2749             0.3937           34
+      RandomForest               80   0.2904  0.1995             0.3925            0.2695          0.4637                   46.2500                  0.2895             0.4159           34
+ XGBoost_symmetric               80   0.2915  0.2055             0.3939            0.2777          0.4697                   45.0000                  0.2987             0.4109           34
+
+RUL / CAP DECISION
+No RUL is derived and no target cap is applied. The dataset reports direct flank wear VB in mm, and the supplied README does not specify a numeric VB failure threshold. The observed data reaches 1.53 mm, so clipping to a conventional assumed value would discard recorded data.
+
+PHM08 DECISION
+Official PHM08 RUL score is not reported because this is direct-VB regression. The asymmetric training objective penalises VB underprediction (the wear-space analogue of RUL overprediction) and adds extra weight to the upper quartile of training wear labels.
+
+LEGACY REFERENCE (NOT APPLE-TO-APPLE WITH STAGE 2)
+The previous RF/XGBoost scores were produced after interpolating all 21 unmeasured VB labels. They are retained in legacy_interpolated_reference.csv only for traceability; compare Stage 2 models using measured-only rows in model_comparison_measured_only.csv.

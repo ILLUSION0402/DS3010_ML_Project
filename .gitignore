@@ -34,3 +34,15 @@ models/*
 
 # Reports / generated output
 reports/generated/*
+
+# Milling raw data and regenerable run outputs
+/data/raw/milling/*.mat
+/data/raw/milling/*.zip
+/reports/milling/run/
+
+# Allow Milling component documentation and model artifacts
+!data/raw/milling/
+data/raw/milling/*
+!data/raw/milling/README.md
+!models/milling/
+!models/milling/**
