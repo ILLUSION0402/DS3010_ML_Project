@@ -1,0 +1,23 @@
+LSTM input columns: 16
+seed 0: best epoch 6 (validation RMSE 13.42 on all windows)
+LSTM seed 0                  RMSE  14.641   MAE  10.796   PHM08    405.06
+   (36 seconds)
+seed 1: best epoch 10 (validation RMSE 14.11 on all windows)
+LSTM seed 1                  RMSE  15.128   MAE  11.102   PHM08    394.38
+   (48 seconds)
+seed 2: best epoch 17 (validation RMSE 16.22 on all windows)
+LSTM seed 2                  RMSE  16.155   MAE  11.166   PHM08    556.20
+   (71 seconds)
+seed 3: best epoch 13 (validation RMSE 13.86 on all windows)
+LSTM seed 3                  RMSE  15.344   MAE  11.088   PHM08    575.69
+   (57 seconds)
+seed 4: best epoch 9 (validation RMSE 13.12 on all windows)
+LSTM seed 4                  RMSE  15.925   MAE  11.408   PHM08    675.01
+   (45 seconds)
+
+=== LSTM over 5 seeds (100 test engines) ===
+rmse   mean   15.439   std   0.611   min   14.641   max   16.155
+mae    mean   11.112   std   0.219   min   10.796   max   11.408
+phm08  mean  521.267   std 119.813   min  394.385   max  675.007
+LSTM average of 5 seeds      RMSE  14.366   MAE  10.200   PHM08    414.81
+Saved predictions_lstm.csv

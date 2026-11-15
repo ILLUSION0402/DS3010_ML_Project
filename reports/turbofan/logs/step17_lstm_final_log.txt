@@ -1,0 +1,34 @@
+Lowest mean CV RMSE: seq70+drop0+lr0.0005 (14.21)
+
+=== baseline: seq 30, hidden 64, layers 2, dropout 0.2, lr 0.001, batch 256 ===
+baseline seed 0 (6 ep)       RMSE  14.134   MAE  10.395   PHM08    289.06
+   (36 seconds)
+baseline seed 1 (10 ep)      RMSE  17.449   MAE  12.135   PHM08    835.25
+   (48 seconds)
+baseline seed 2 (17 ep)      RMSE  16.050   MAE  10.924   PHM08    654.01
+   (70 seconds)
+baseline seed 3 (13 ep)      RMSE  14.687   MAE  11.025   PHM08    314.53
+   (56 seconds)
+baseline seed 4 (9 ep)       RMSE  14.824   MAE  10.535   PHM08    477.96
+   (39 seconds)
+baseline average of 5        RMSE  14.263   MAE  10.058   PHM08    374.21
+
+=== seq70+drop0+lr0.0005: seq 70, hidden 64, layers 2, dropout 0.0, lr 0.0005, batch 256 ===
+seq70+drop0+lr0.0005 seed 0 (10 ep) RMSE  13.661   MAE  10.167   PHM08    378.40
+   (67 seconds)
+seq70+drop0+lr0.0005 seed 1 (12 ep) RMSE  13.975   MAE  10.579   PHM08    342.45
+   (82 seconds)
+seq70+drop0+lr0.0005 seed 2 (17 ep) RMSE  14.158   MAE  10.116   PHM08    335.81
+   (116 seconds)
+seq70+drop0+lr0.0005 seed 3 (12 ep) RMSE  14.201   MAE  10.465   PHM08    357.70
+   (85 seconds)
+seq70+drop0+lr0.0005 seed 4 (11 ep) RMSE  14.369   MAE  10.447   PHM08    373.69
+   (79 seconds)
+seq70+drop0+lr0.0005 average of 5 RMSE  13.149   MAE   9.789   PHM08    295.07
+
+=== 100 test engines, mean (std) over 5 seeds ===
+                        rmse            mae           phm08         
+                        mean    std    mean    std     mean      std
+setting                                                             
+baseline              15.429  1.328  11.003  0.685  514.165  231.566
+seq70+drop0+lr0.0005  14.073  0.270  10.355  0.202  357.613   18.680
