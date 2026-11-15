@@ -1,0 +1,9 @@
+Lowest mean CV RMSE: lambda 10 (14.01)
+XGBoost baseline             RMSE  13.138   MAE   9.701   PHM08    279.34
+   within 10 cycles: 64/100   within 30: 95/100   late predictions: 52
+XGBoost lambda 10            RMSE  13.203   MAE   9.663   PHM08    293.80
+   within 10 cycles: 64/100   within 30: 95/100   late predictions: 52
+
+  setting   rmse   mae   phm08  within_10  within_30  late_predictions
+ baseline 13.138 9.701 279.341         64         95                52
+lambda 10 13.203 9.663 293.804         64         95                52

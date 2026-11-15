@@ -1,0 +1,50 @@
+baseline                     RMSE  14.28 +- 1.01   MAE  10.30   PHM08   431.0   (13 s)
+depth 3                      RMSE  15.12 +- 0.95   MAE  11.09   PHM08   497.7   (4 s)
+depth 4                      RMSE  14.46 +- 0.98   MAE  10.54   PHM08   435.8   (6 s)
+depth 8                      RMSE  14.20 +- 1.15   MAE  10.19   PHM08   423.5   (34 s)
+lr 0.02 x1250                RMSE  14.25 +- 0.92   MAE  10.24   PHM08   419.5   (34 s)
+lr 0.1 x250                  RMSE  14.27 +- 0.91   MAE  10.31   PHM08   432.0   (7 s)
+trees 250                    RMSE  14.33 +- 0.97   MAE  10.34   PHM08   428.4   (7 s)
+trees 1000                   RMSE  14.21 +- 1.01   MAE  10.27   PHM08   421.7   (27 s)
+min_child 5                  RMSE  14.16 +- 0.71   MAE  10.27   PHM08   400.3   (13 s)
+min_child 20                 RMSE  14.21 +- 0.87   MAE  10.34   PHM08   408.7   (12 s)
+subsample 0.6                RMSE  14.45 +- 1.01   MAE  10.51   PHM08   447.4   (14 s)
+subsample 1.0                RMSE  14.20 +- 1.03   MAE  10.23   PHM08   433.1   (13 s)
+colsample 0.5                RMSE  14.32 +- 1.22   MAE  10.29   PHM08   441.8   (12 s)
+colsample 1.0                RMSE  14.15 +- 0.97   MAE  10.13   PHM08   416.4   (15 s)
+lambda 10                    RMSE  14.01 +- 0.94   MAE  10.10   PHM08   406.8   (13 s)
+window 3                     RMSE  14.22 +- 1.13   MAE  10.33   PHM08   422.0   (12 s)
+lambda 30                    RMSE  14.12 +- 1.04   MAE  10.30   PHM08   411.0   (13 s)
+lambda 100                   RMSE  14.32 +- 0.96   MAE  10.39   PHM08   443.1   (13 s)
+depth 10                     RMSE  14.82 +- 1.31   MAE  10.69   PHM08   495.0   (75 s)
+l10+col1                     RMSE  14.14 +- 0.83   MAE  10.14   PHM08   419.4   (14 s)
+l10+col1+d8                  RMSE  14.21 +- 1.04   MAE  10.26   PHM08   424.4   (40 s)
+l10+col1+d8+t1000            RMSE  14.22 +- 1.06   MAE  10.28   PHM08   426.8   (79 s)
+l10+col1+mc5                 RMSE  14.07 +- 0.84   MAE  10.10   PHM08   407.3   (14 s)
+
+=== ALL SETTINGS, sorted by mean CV RMSE (100 cut points x 5 folds) ===
+                    rmse    mae   phm08  rmse_std  folds_better_than_baseline
+setting                                                                      
+lambda 10          14.01  10.10  406.79      0.94                           5
+l10+col1+mc5       14.07  10.10  407.28      0.84                           4
+lambda 30          14.12  10.30  411.05      1.04                           4
+l10+col1           14.14  10.14  419.38      0.83                           3
+colsample 1.0      14.15  10.13  416.38      0.97                           4
+min_child 5        14.16  10.27  400.28      0.71                           2
+depth 8            14.20  10.19  423.51      1.15                           4
+subsample 1.0      14.20  10.23  433.14      1.03                           2
+l10+col1+d8        14.21  10.26  424.35      1.04                           2
+trees 1000         14.21  10.27  421.72      1.01                           4
+min_child 20       14.21  10.34  408.68      0.87                           3
+l10+col1+d8+t1000  14.22  10.28  426.79      1.06                           2
+window 3           14.22  10.33  421.96      1.13                           3
+lr 0.02 x1250      14.25  10.24  419.52      0.92                           2
+lr 0.1 x250        14.27  10.31  431.97      0.91                           1
+baseline           14.28  10.30  430.95      1.01                           0
+lambda 100         14.32  10.39  443.05      0.96                           1
+colsample 0.5      14.32  10.29  441.76      1.22                           2
+trees 250          14.33  10.34  428.42      0.97                           2
+subsample 0.6      14.45  10.51  447.37      1.01                           2
+depth 4            14.46  10.54  435.84      0.98                           2
+depth 10           14.82  10.69  495.00      1.31                           0
+depth 3            15.12  11.09  497.70      0.95                           1
