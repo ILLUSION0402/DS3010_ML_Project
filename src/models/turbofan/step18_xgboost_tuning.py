@@ -73,7 +73,7 @@ def get_window_data(window):
     if window not in features_by_window:
         data_fe = add_rolling_features(train_data, window)
         data_fe = data_fe.merge(cut_table, on=["unit_number", "cycle"], how="left")
-        data_fe["is_cut"] = data_fe["is_cut"].fillna(False).astype(bool)
+        data_fe["is_cut"] = data_fe["is_cut"].notna()   # True where a cut point was merged in
         features_by_window[window] = data_fe
     return features_by_window[window]
 

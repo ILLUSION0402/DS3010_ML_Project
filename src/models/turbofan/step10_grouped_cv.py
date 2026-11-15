@@ -53,7 +53,7 @@ results = []
 for window in WINDOWS:
     data_fe = add_rolling_features(train_data, window)
     data_fe = data_fe.merge(cut_table, on=["unit_number", "cycle"], how="left")
-    data_fe["is_cut"] = data_fe["is_cut"].fillna(False).astype(bool)
+    data_fe["is_cut"] = data_fe["is_cut"].notna()   # True where a cut point was merged in
     feature_columns = get_feature_columns(data_fe)
     feature_columns.remove("is_cut")
 

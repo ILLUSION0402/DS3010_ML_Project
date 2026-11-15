@@ -75,4 +75,7 @@ reports/turbofan/lstm_tuning_cv.csv, so delete that file to re-run the search.
 Processed data goes to data/processed/turbofan/ and models to models/turbofan/;
 both stay ignored by Git. Results, run logs and figures are in reports/turbofan/.
 Developed with pandas 3.0, scikit-learn 1.8, xgboost 3.4 and PyTorch 2.12 (CPU).
-Not yet tested against the repository's pandas<3 pin.
+Also tested with pandas 2.3.3, which is what the repository's pandas<3 pin
+installs: every step runs, and every result CSV and processed-data file is
+identical to the pandas 3.0 run. Step 16's search was not re-run; its tuned
+setting was re-trained in step 17 and matched.

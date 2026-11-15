@@ -120,7 +120,7 @@ cut_table = make_cut_points(train_data)
 fold_engine_lists = make_engine_folds(train_data)
 train_fe = add_rolling_features(train_data, xgb_window)
 train_fe = train_fe.merge(cut_table, on=["unit_number", "cycle"], how="left")
-train_fe["is_cut"] = train_fe["is_cut"].fillna(False).astype(bool)
+train_fe["is_cut"] = train_fe["is_cut"].notna()   # True where a cut point was merged in
 feature_columns = get_feature_columns(train_fe)
 feature_columns.remove("is_cut")
 
