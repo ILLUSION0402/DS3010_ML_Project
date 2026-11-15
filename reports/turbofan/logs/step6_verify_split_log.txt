@@ -1,0 +1,7 @@
+Train engines: 100
+Test engines: 100
+Train rows: 20631
+Test rows: 13096
+Train engines reaching RUL 0: 100 out of 100
+Test engines reaching RUL 0: 0 out of 100
+Lowest RUL in test: 7

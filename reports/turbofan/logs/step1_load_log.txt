@@ -1,0 +1,7 @@
+Train shape: (20631, 26)
+Test shape: (13096, 26)
+RUL file rows: 100
+Train engines: 100
+Test engines: 100
+Shortest engine life: 128
+Longest engine life: 362

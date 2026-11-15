@@ -1,0 +1,10 @@
+Train RUL range: 0 - 125
+Test RUL range: 7 - 125
+
+Engine 1, last 5 rows:
+     unit_number  cycle  RUL
+187            1    188    4
+188            1    189    3
+189            1    190    2
+190            1    191    1
+191            1    192    0
