@@ -12,8 +12,8 @@ the full pipeline for it: data preparation, models, evaluation and a report.
 | Component | Dataset | What is predicted | Owner | Where to look |
 |---|---|---|---|---|
 | Turbofan engine | NASA C-MAPSS, subset FD001 | RUL in flight cycles | Vedant Singh | [reports/turbofan](reports/turbofan/Turbofan_Component_Report.md), code in `src/models/turbofan/` |
-| Lithium-ion battery | NASA PCoE Battery dataset | RUL in charge cycles | Ch. Srinivasa Saketh | [reports/battery](reports/battery/Battery_Component_Report.md), code in `src/data/battery/`, `src/models/battery/` |
 | Rolling-element bearing | NASA IMS / Rexnord bearings | Health index from 1 (healthy) to 0 (failed) | Samyuktha K | [reports/bearings](reports/bearings/Bearings_Component_Report.md), code in `notebooks/bearings/`, `src/models/bearings/` |
+| Lithium-ion battery | NASA PCoE Battery dataset | RUL in charge cycles | Ch. Srinivasa Saketh | [reports/battery](reports/battery/Battery_Component_Report.md), code in `src/data/battery/`, `src/models/battery/` |
 | Milling tool | NASA milling dataset | RUL in cutting runs | S Mithil Reddy | not uploaded yet |
 
 Each component's report lists its pipeline, its recorded results and its
