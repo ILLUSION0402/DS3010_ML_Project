@@ -1,0 +1,13 @@
+model,threshold,documented_failure,n_bearings,n_bearings_alerted,mean_lead_hours,fraction_bearings_alerted
+ExtraTrees_baseline,0.7,False,8,2,,0.25
+ExtraTrees_baseline,0.7,True,4,3,42.966111111111125,0.75
+ExtraTrees_baseline,0.8,False,8,3,,0.375
+ExtraTrees_baseline,0.8,True,4,3,55.426481481481495,0.75
+ExtraTrees_baseline,0.9,False,8,6,,0.75
+ExtraTrees_baseline,0.9,True,4,3,70.08120370370374,0.75
+ExtraTrees_tuned,0.7,False,8,3,,0.375
+ExtraTrees_tuned,0.7,True,4,3,48.91055555555559,0.75
+ExtraTrees_tuned,0.8,False,8,5,,0.625
+ExtraTrees_tuned,0.8,True,4,3,58.86481481481483,0.75
+ExtraTrees_tuned,0.9,False,8,6,,0.75
+ExtraTrees_tuned,0.9,True,4,3,67.94231481481485,0.75

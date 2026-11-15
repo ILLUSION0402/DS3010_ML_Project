@@ -1,0 +1,4 @@
+outer_test,feature_set,leaf,max_features,late_weight,win,alpha
+1st_test,base,20,0.5,2,15,0.2
+2nd_test,base,20,0.5,2,15,0.2
+3rd_test,history,75,0.3,3,10,0.2
